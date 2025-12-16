@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Все Для Побуту - Інтернет-магазин техніки</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Roboto (Новий шрифт) -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            blue: '#4f8fe6',   // Основний синій (Кнопки, посилання)
+                            red: '#a90636',    // Червоний (Знижки, акценти)
+                            purple: '#9c52f2', // Фіолетовий (Іконки, декор)
+                            mint: '#b5d1cc',   // М'ятний (Фони)
+                            dark: '#000000',   // Чорний (Текст)
+                            light: '#f0f9ff',  // Дуже світлий фон (блакитний відтінок)
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Roboto', 'sans-serif'], // Оновлений шрифт
+                    },
+                    borderRadius: {
+                        '4xl': '2.5rem',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Roboto', sans-serif; /* Оновлений шрифт */
+            background-color: #f0f9ff;
+            color: #000000;
+        }
+        .blob {
+            position: absolute;
+            filter: blur(50px);
+            z-index: -1;
+            opacity: 0.5;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4f8fe6;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2c6ebf;
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(79, 143, 230, 0.15), 0 10px 10px -5px rgba(79, 143, 230, 0.04);
+        }
+        /* Cart Animation */
+        .cart-panel-enter {
+            transform: translateX(100%);
+        }
+        .cart-panel-enter-active {
+            transform: translateX(0);
+        }
+        .cart-panel-exit {
+            transform: translateX(0);
+        }
+        .cart-panel-exit-active {
+            transform: translateX(100%);
+        }
+        /* New Animation for Cart Items */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen relative">
+
+    <!-- Navbar -->
+    <nav class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-brand-mint/50 shadow-sm">
+        <div class="container mx-auto px-4 md:px-8 py-4">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-2 group">
+                    <div class="w-10 h-10 bg-brand-blue rounded-full flex items-center justify-center text-white transform group-hover:rotate-12 transition-transform shadow-md">
+                        <i class="fa-solid fa-plug text-xl"></i>
+                    </div>
+                    <span class="text-2xl font-extrabold text-brand-dark tracking-tight">ВсеДля<span class="text-brand-blue">Побуту</span></span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex gap-8 font-semibold text-brand-dark">
+                    <a href="#" class="hover:text-brand-blue transition-colors">Головна</a>
+                    <a href="#categories" class="hover:text-brand-blue transition-colors">Категорії</a>
+                    <a href="#products" class="hover:text-brand-blue transition-colors">Товари</a>
+                    <a href="#blog" class="hover:text-brand-blue transition-colors">Блог</a>
+                    <a href="#faq" class="hover:text-brand-blue transition-colors">FAQ</a>
+                    <a href="#contacts" class="hover:text-brand-blue transition-colors">Контакти</a>
+                </div>
+
+                <!-- Icons & Mobile Toggle -->
+                <div class="flex items-center gap-4">
+                    <button class="relative w-10 h-10 rounded-full bg-brand-light border border-brand-mint hover:bg-brand-mint transition-colors flex items-center justify-center text-brand-dark" onclick="openCart()">
+                        <i class="fa-solid fa-cart-shopping text-brand-blue"></i>
+                        <span id="cart-count" class="absolute -top-1 -right-1 bg-brand-red text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center animate-bounce shadow-sm">0</span>
+                    </button>
+                    <button class="md:hidden text-2xl text-brand-dark" onclick="toggleMenu()">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-brand-mint p-4 absolute w-full shadow-lg">
+            <div class="flex flex-col gap-4 font-semibold text-center text-brand-dark">
+                <a href="#" class="py-2 hover:text-brand-blue">Головна</a>
+                <a href="#categories" class="py-2 hover:text-brand-blue">Категорії</a>
+                <a href="#products" class="py-2 hover:text-brand-blue">Товари</a>
+                <a href="#blog" class="py-2 hover:text-brand-blue">Блог</a>
+                <a href="#faq" class="py-2 hover:text-brand-blue">FAQ</a>
+                <a href="#contacts" class="py-2 hover:text-brand-blue">Контакти</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Cart Modal Overlay -->
+    <div id="cart-modal" class="fixed inset-0 z-[60] hidden">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-brand-dark/30 backdrop-blur-sm transition-opacity opacity-0" id="cart-backdrop" onclick="closeCart()"></div>
+        
+        <!-- Cart Panel -->
+        <div class="absolute right-0 top-0 h-full w-full md:w-[450px] bg-white shadow-2xl transform transition-transform duration-300 translate-x-full flex flex-col" id="cart-panel">
+            <!-- Header -->
+            <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-brand-mint/20">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-brand-blue/10 flex items-center justify-center text-brand-blue">
+                        <i class="fa-solid fa-basket-shopping"></i>
+                    </div>
+                    <h2 class="text-2xl font-extrabold text-brand-dark">Кошик</h2>
+                </div>
+                <button onclick="closeCart()" class="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-400 hover:bg-brand-red hover:text-white transition-colors">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <!-- Items -->
+            <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4">
+                <!-- Cart items will be injected here -->
+            </div>
+
+            <!-- Footer -->
+            <div class="p-6 border-t border-gray-100 bg-brand-light">
+                <div class="flex justify-between items-center mb-6">
+                    <span class="text-gray-500 font-medium">Разом до сплати:</span>
+                    <span id="cart-total" class="text-2xl font-extrabold text-brand-blue">0 ₴</span>
+                </div>
+                <button onclick="checkout()" class="w-full py-4 bg-brand-blue text-white rounded-2xl font-bold hover:bg-brand-purple transition-all shadow-lg hover:shadow-brand-blue/30 flex items-center justify-center gap-2 group">
+                    <span>Оформити замовлення</span>
+                    <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="relative overflow-hidden pt-10 pb-20 md:py-24">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                
+                <!-- Text Content -->
+                <div class="w-full md:w-1/2 z-10 text-center md:text-left">
+                    <span class="inline-block px-4 py-2 rounded-full bg-brand-mint/50 text-brand-dark font-bold text-sm mb-6 border border-brand-blue/20">
+                        ✨ Нова колекція техніки 2025
+                    </span>
+                    <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold text-brand-dark leading-[1.1] mb-6">
+                        Комфорт у <br>
+                        <span class="relative inline-block">
+                            кожному домі
+                            <svg class="absolute w-full h-3 -bottom-1 left-0 text-brand-blue" viewBox="0 0 200 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.00025 6.99997C25.7501 3.49988 56.6667 2.66663 88.0001 2.99998C120.5 3.33333 166.5 6.99997 197.5 6.99997" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                        </span>
+                    </h1>
+                    <p class="text-lg text-gray-600 mb-8 max-w-lg mx-auto md:mx-0 font-medium">
+                        Знайдіть ідеальну техніку для вашої кухні та дому. Швидка доставка, гарантія якості та найкращі ціни.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                        <a href="#products" class="bg-brand-blue text-white px-8 py-4 rounded-2xl font-bold hover:bg-brand-purple hover:text-white transition-all shadow-lg hover:shadow-brand-blue/50 flex items-center justify-center gap-2">
+                            Купити зараз <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                        <a href="#categories" class="bg-white text-brand-dark border-2 border-brand-mint px-8 py-4 rounded-2xl font-bold hover:bg-brand-mint transition-all flex items-center justify-center">
+                            Каталог
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Hero Image / Graphics -->
+                <div class="w-full md:w-1/2 relative z-10">
+                    <div class="relative bg-brand-mint rounded-[3rem] p-8 md:p-12 transform rotate-2 hover:rotate-0 transition-transform duration-500 shadow-xl border-4 border-white">
+                        <!-- Оновлене фото для Hero секції -->
+                        <img src="https://loremflickr.com/800/600/modern,kitchen" alt="Сучасна кухня" class="rounded-2xl shadow-lg w-full object-cover">
+                        <!-- Floating Badges -->
+                        <div class="absolute -top-6 -right-6 bg-brand-red text-white p-4 rounded-2xl shadow-lg font-bold rotate-12 animate-pulse">
+                            -30% Знижка
+                        </div>
+                        <div class="absolute -bottom-6 -left-6 bg-white p-4 rounded-2xl shadow-lg flex items-center gap-3">
+                            <div class="bg-brand-light p-2 rounded-full text-brand-purple border border-brand-purple/20"><i class="fa-solid fa-truck-fast"></i></div>
+                            <div>
+                                <p class="text-xs text-gray-500 font-bold">Доставка</p>
+                                <p class="text-sm font-bold text-brand-dark">Безкоштовно</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Blobs for decoration -->
+        <div class="blob bg-brand-blue w-96 h-96 rounded-full top-0 left-0 -translate-x-1/2 -translate-y-1/2 opacity-20"></div>
+        <div class="blob bg-brand-purple w-64 h-64 rounded-full bottom-0 right-0 translate-x-1/3 translate-y-1/3 opacity-30"></div>
+    </header>
+
+    <!-- Categories Section -->
+    <section id="categories" class="py-16 bg-white">
+        <div class="container mx-auto px-4 md:px-8">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-brand-dark text-center mb-12">Категорії товарів</h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <!-- Category 1 -->
+                <div onclick="filterCategory('kitchen')" class="cursor-pointer group p-6 rounded-3xl bg-brand-light hover:bg-brand-mint transition-colors text-center border border-brand-mint/50 shadow-sm hover:shadow-md">
+                    <div class="w-20 h-20 mx-auto bg-white rounded-full flex items-center justify-center text-3xl text-brand-purple mb-4 shadow-sm group-hover:scale-110 transition-transform border border-brand-purple/10">
+                        <i class="fa-solid fa-kitchen-set"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-brand-dark">Кухня</h3>
+                    <p class="text-sm text-gray-500 mt-1">120+ товарів</p>
+                </div>
+                 <!-- Category 2 -->
+                 <div onclick="filterCategory('wash')" class="cursor-pointer group p-6 rounded-3xl bg-brand-light hover:bg-brand-mint transition-colors text-center border border-brand-mint/50 shadow-sm hover:shadow-md">
+                    <div class="w-20 h-20 mx-auto bg-white rounded-full flex items-center justify-center text-3xl text-brand-purple mb-4 shadow-sm group-hover:scale-110 transition-transform border border-brand-purple/10">
+                        <i class="fa-solid fa-shirt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-brand-dark">Прання</h3>
+                    <p class="text-sm text-gray-500 mt-1">45+ товарів</p>
+                </div>
+                 <!-- Category 3 -->
+                 <div onclick="filterCategory('climate')" class="cursor-pointer group p-6 rounded-3xl bg-brand-light hover:bg-brand-mint transition-colors text-center border border-brand-mint/50 shadow-sm hover:shadow-md">
+                    <div class="w-20 h-20 mx-auto bg-white rounded-full flex items-center justify-center text-3xl text-brand-purple mb-4 shadow-sm group-hover:scale-110 transition-transform border border-brand-purple/10">
+                        <i class="fa-solid fa-wind"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-brand-dark">Клімат</h3>
+                    <p class="text-sm text-gray-500 mt-1">30+ товарів</p>
+                </div>
+                 <!-- Category 4 -->
+                 <div onclick="filterCategory('all')" class="cursor-pointer group p-6 rounded-3xl bg-brand-light hover:bg-brand-mint transition-colors text-center border border-brand-mint/50 shadow-sm hover:shadow-md">
+                    <div class="w-20 h-20 mx-auto bg-white rounded-full flex items-center justify-center text-3xl text-brand-purple mb-4 shadow-sm group-hover:scale-110 transition-transform border border-brand-purple/10">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-brand-dark">Усі товари</h3>
+                    <p class="text-sm text-gray-500 mt-1">Показати все</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="py-16 bg-brand-light relative">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-brand-dark">Каталог товарів</h2>
+                    <p class="text-gray-600 mt-2 font-medium">Оновіть свій дім найкращими гаджетами</p>
+                </div>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="flex flex-wrap gap-3 mb-8">
+                <button onclick="filterCategory('all')" class="filter-btn px-6 py-3 rounded-xl border-2 border-brand-blue/20 text-brand-dark font-bold hover:border-brand-blue hover:text-brand-blue transition-all bg-white shadow-sm" data-category="all">
+                    <i class="fa-solid fa-layer-group mr-2"></i>Всі
+                </button>
+                <button onclick="filterCategory('kitchen')" class="filter-btn px-6 py-3 rounded-xl border-2 border-brand-blue/20 text-brand-dark font-bold hover:border-brand-blue hover:text-brand-blue transition-all bg-white shadow-sm" data-category="kitchen">
+                    <i class="fa-solid fa-kitchen-set mr-2"></i>Кухня
+                </button>
+                <button onclick="filterCategory('wash')" class="filter-btn px-6 py-3 rounded-xl border-2 border-brand-blue/20 text-brand-dark font-bold hover:border-brand-blue hover:text-brand-blue transition-all bg-white shadow-sm" data-category="wash">
+                    <i class="fa-solid fa-shirt mr-2"></i>Прання
+                </button>
+                <button onclick="filterCategory('climate')" class="filter-btn px-6 py-3 rounded-xl border-2 border-brand-blue/20 text-brand-dark font-bold hover:border-brand-blue hover:text-brand-blue transition-all bg-white shadow-sm" data-category="climate">
+                    <i class="fa-solid fa-wind mr-2"></i>Клімат
+                </button>
+            </div>
+
+            <!-- Grid Container -->
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Products will be injected here by JS -->
+            </div>
+
+            <!-- Empty State (Hidden) -->
+            <div id="empty-state" class="hidden text-center py-12">
+                <i class="fa-solid fa-box-open text-6xl text-gray-300 mb-4"></i>
+                <h3 class="text-xl font-bold text-gray-600">Товарів не знайдено</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="py-16 bg-white">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="text-center mb-12">
+                <span class="text-brand-blue font-bold tracking-wider uppercase text-sm">Корисні статті</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-brand-dark mt-2">Наш Блог</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Article 1 -->
+                <article class="bg-white rounded-3xl overflow-hidden border border-brand-mint/50 shadow-lg hover:shadow-xl transition-shadow group cursor-pointer">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://loremflickr.com/600/400/kitchen,tech" alt="Blog 1" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-lg text-xs font-bold text-brand-dark">
+                            12 Гру 2024
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-brand-dark mb-3 group-hover:text-brand-blue transition-colors">Топ-5 гаджетів для кухні 2025 року</h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-3">
+                            Дізнайтеся про новітні технології, які зроблять приготування їжі швидшим та приємнішим. Огляд найкращих новинок ринку.
+                        </p>
+                        <a href="#" class="inline-flex items-center text-brand-blue font-bold hover:underline">
+                            Читати далі <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Article 2 -->
+                <article class="bg-white rounded-3xl overflow-hidden border border-brand-mint/50 shadow-lg hover:shadow-xl transition-shadow group cursor-pointer">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://loremflickr.com/600/400/washing,machine" alt="Blog 2" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-lg text-xs font-bold text-brand-dark">
+                            05 Гру 2024
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-brand-dark mb-3 group-hover:text-brand-blue transition-colors">Як обрати ідеальну пральну машину?</h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-3">
+                            Розбираємося у типах завантаження, класах енергозбереження та функціях, які дійсно необхідні для вашої родини.
+                        </p>
+                        <a href="#" class="inline-flex items-center text-brand-blue font-bold hover:underline">
+                            Читати далі <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Article 3 -->
+                <article class="bg-white rounded-3xl overflow-hidden border border-brand-mint/50 shadow-lg hover:shadow-xl transition-shadow group cursor-pointer">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://loremflickr.com/600/400/smarthome,energy" alt="Blog 3" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-lg text-xs font-bold text-brand-dark">
+                            28 Лис 2024
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-brand-dark mb-3 group-hover:text-brand-blue transition-colors">Економія електроенергії: поради експертів</h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-3">
+                            Прості кроки та правильний вибір побутової техніки допоможуть суттєво зменшити рахунки за комунальні послуги.
+                        </p>
+                        <a href="#" class="inline-flex items-center text-brand-blue font-bold hover:underline">
+                            Читати далі <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-16 bg-brand-light">
+        <div class="container mx-auto px-4 md:px-8 max-w-4xl">
+            <div class="text-center mb-12">
+                <span class="text-brand-blue font-bold tracking-wider uppercase text-sm">FAQ</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-brand-dark mt-2">Поширені запитання</h2>
+            </div>
+
+            <div class="space-y-4">
+                <!-- Question 1 -->
+                <details class="group bg-white rounded-2xl p-6 border border-brand-mint/50 shadow-sm cursor-pointer open:ring-2 open:ring-brand-blue/20 transition-all">
+                    <summary class="flex justify-between items-center font-bold text-lg text-brand-dark list-none">
+                        <span>Як оформити замовлення?</span>
+                        <span class="transition group-open:rotate-180">
+                            <i class="fa-solid fa-chevron-down text-brand-blue"></i>
+                        </span>
+                    </summary>
+                    <p class="text-gray-600 mt-4 text-sm leading-relaxed">
+                        Виберіть товар у каталозі, натисніть кнопку "Купити", перейдіть до кошика та заповніть форму замовлення. Наш менеджер зв'яжеться з вами для підтвердження.
+                    </p>
+                </details>
+
+                <!-- Question 2 -->
+                <details class="group bg-white rounded-2xl p-6 border border-brand-mint/50 shadow-sm cursor-pointer open:ring-2 open:ring-brand-blue/20 transition-all">
+                    <summary class="flex justify-between items-center font-bold text-lg text-brand-dark list-none">
+                        <span>Які є способи доставки?</span>
+                        <span class="transition group-open:rotate-180">
+                            <i class="fa-solid fa-chevron-down text-brand-blue"></i>
+                        </span>
+                    </summary>
+                    <p class="text-gray-600 mt-4 text-sm leading-relaxed">
+                        Ми доставляємо товари Новою Поштою (до відділення або кур'єром) та Укрпоштою. Також можливий самовивіз із нашого магазину в Києві.
+                    </p>
+                </details>
+
+                <!-- Question 3 -->
+                <details class="group bg-white rounded-2xl p-6 border border-brand-mint/50 shadow-sm cursor-pointer open:ring-2 open:ring-brand-blue/20 transition-all">
+                    <summary class="flex justify-between items-center font-bold text-lg text-brand-dark list-none">
+                        <span>Чи надається гарантія на техніку?</span>
+                        <span class="transition group-open:rotate-180">
+                            <i class="fa-solid fa-chevron-down text-brand-blue"></i>
+                        </span>
+                    </summary>
+                    <p class="text-gray-600 mt-4 text-sm leading-relaxed">
+                        Так, на всю техніку надається офіційна гарантія від виробника терміном від 12 до 36 місяців, залежно від категорії товару.
+                    </p>
+                </details>
+
+                <!-- Question 4 -->
+                <details class="group bg-white rounded-2xl p-6 border border-brand-mint/50 shadow-sm cursor-pointer open:ring-2 open:ring-brand-blue/20 transition-all">
+                    <summary class="flex justify-between items-center font-bold text-lg text-brand-dark list-none">
+                        <span>Як повернути товар, якщо він не підійшов?</span>
+                        <span class="transition group-open:rotate-180">
+                            <i class="fa-solid fa-chevron-down text-brand-blue"></i>
+                        </span>
+                    </summary>
+                    <p class="text-gray-600 mt-4 text-sm leading-relaxed">
+                        Ви можете повернути товар протягом 14 днів з моменту покупки, за умови збереження товарного вигляду, упаковки та чека, згідно із законодавством України.
+                    </p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us (Moved down slightly in logic, but kept before contact) -->
+    <section id="about" class="py-16 bg-brand-dark text-white rounded-t-[3rem] relative overflow-hidden">
+        <!-- ... existing content of About section ... -->
+        <!-- Background decoration -->
+        <div class="absolute top-0 right-0 w-64 h-64 bg-brand-purple rounded-full blur-[80px] opacity-30 pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 w-64 h-64 bg-brand-blue rounded-full blur-[80px] opacity-20 pointer-events-none"></div>
+        
+        <div class="container mx-auto px-4 md:px-8 relative z-10">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-extrabold mb-6">Чому обирають <br> <span class="text-brand-blue">"Все Для Побуту"?</span></h2>
+                    <p class="text-gray-300 mb-8 text-lg">Ми робимо ваше життя простішим завдяки сучасній техніці та бездоганному сервісу.</p>
+                    
+                    <ul class="space-y-4">
+                        <li class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-brand-blue/20 flex items-center justify-center text-brand-blue">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <span class="font-medium">Офіційна гарантія на всі товари</span>
+                        </li>
+                        <li class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-brand-blue/20 flex items-center justify-center text-brand-blue">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <span class="font-medium">Безкоштовна доставка від 5000 грн</span>
+                        </li>
+                        <li class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-brand-blue/20 flex items-center justify-center text-brand-blue">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <span class="font-medium">Підтримка 24/7</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="relative">
+                     <img src="https://loremflickr.com/600/400/team,work" alt="About Us" class="rounded-3xl border-4 border-brand-mint/30 shadow-2xl w-full h-80 object-cover">
+                     <div class="absolute bottom-8 right-8 bg-brand-blue text-white p-6 rounded-2xl shadow-xl max-w-xs">
+                        <div class="flex gap-1 text-brand-mint mb-2 text-sm">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="font-bold text-sm">"Найкращий сервіс, який я коли-небудь зустрічав! Швидко і надійно."</p>
+                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacts Section -->
+    <section id="contacts" class="py-16 bg-white">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="text-center mb-12">
+                <span class="text-brand-blue font-bold tracking-wider uppercase text-sm">Зв'яжіться з нами</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-brand-dark mt-2">Контакти</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12 bg-brand-light rounded-3xl p-8 md:p-12 border border-brand-mint/50">
+                <!-- Contact Info -->
+                <div class="space-y-8">
+                    <h3 class="text-2xl font-bold text-brand-dark">Ми завжди на зв'язку</h3>
+                    <p class="text-gray-600">
+                        Маєте запитання чи пропозиції? Заповніть форму, і ми відповімо вам найближчим часом.
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-full bg-white text-brand-blue shadow-sm flex items-center justify-center text-xl shrink-0">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-brand-dark">Адреса</h4>
+                                <p class="text-gray-600 text-sm">Київ, вул. Технічна 1, офіс 305</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-full bg-white text-brand-blue shadow-sm flex items-center justify-center text-xl shrink-0">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-brand-dark">Телефон</h4>
+                                <p class="text-gray-600 text-sm">+38 (099) 123 45 67</p>
+                                <p class="text-gray-600 text-sm">+38 (067) 987 65 43</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-full bg-white text-brand-blue shadow-sm flex items-center justify-center text-xl shrink-0">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-brand-dark">Email</h4>
+                                <p class="text-gray-600 text-sm">info@pobut.ua</p>
+                                <p class="text-gray-600 text-sm">support@pobut.ua</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <form onsubmit="handleContactSubmit(event)" class="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-gray-100">
+                    <div class="space-y-4">
+                        <div>
+                            <label for="name" class="block text-sm font-bold text-brand-dark mb-1">Ваше ім'я</label>
+                            <input type="text" id="name" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-all" placeholder="Іван Іванов" required>
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-bold text-brand-dark mb-1">Email</label>
+                            <input type="email" id="email" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-all" placeholder="ivan@example.com" required>
+                        </div>
+                        <div>
+                            <label for="message" class="block text-sm font-bold text-brand-dark mb-1">Повідомлення</label>
+                            <textarea id="message" rows="4" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-all" placeholder="Напишіть ваше запитання..." required></textarea>
+                        </div>
+                        <button type="submit" class="w-full py-4 bg-brand-blue text-white rounded-xl font-bold hover:bg-brand-purple transition-all shadow-lg hover:shadow-brand-blue/30 flex items-center justify-center gap-2 group">
+                            Надіслати повідомлення <i class="fa-solid fa-paper-plane group-hover:translate-x-1 transition-transform"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-10 pb-6 border-t border-white/10">
+        <div class="container mx-auto px-4 md:px-8 text-center md:text-left">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <a href="#" class="text-2xl font-extrabold tracking-tight mb-4 inline-block">ВсеДля<span class="text-brand-blue">Побуту</span></a>
+                    <p class="text-gray-400 text-sm">Ваш надійний партнер у світі побутової техніки.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4 text-brand-blue">Магазин</h4>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><a href="#" class="hover:text-white">Каталог</a></li>
+                        <li><a href="#" class="hover:text-white">Акції</a></li>
+                        <li><a href="#" class="hover:text-white">Новинки</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4 text-brand-blue">Клієнтам</h4>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><a href="#" class="hover:text-white">Доставка та оплата</a></li>
+                        <li><a href="#" class="hover:text-white">Гарантія</a></li>
+                        <li><a href="#" class="hover:text-white">Повернення</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4 text-brand-blue">Контакти</h4>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><i class="fa-solid fa-phone mr-2"></i> +38 (099) 123 45 67</li>
+                        <li><i class="fa-solid fa-envelope mr-2"></i> info@pobut.ua</li>
+                        <li><i class="fa-solid fa-location-dot mr-2"></i> Київ, вул. Технічна 1</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
+                <p>&copy; 2025 Все Для Побуту. Всі права захищено.</p>
+                <div class="flex gap-4 text-lg">
+                    <a href="#" class="hover:text-brand-blue"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="hover:text-brand-blue"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#" class="hover:text-brand-blue"><i class="fa-brands fa-telegram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Notification (Toast) -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-brand-dark text-white px-6 py-4 rounded-xl shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center gap-3 border border-brand-blue/20">
+        <div class="w-8 h-8 rounded-full bg-brand-blue flex items-center justify-center text-white">
+            <i class="fa-solid fa-check"></i>
+        </div>
+        <div>
+            <h4 class="font-bold text-sm">Товар додано!</h4>
+            <p class="text-xs text-gray-300">Перевірте кошик для оформлення.</p>
+        </div>
+    </div>
+    <!-- Checkout Notification (Toast) -->
+    <div id="checkout-toast" class="fixed bottom-5 right-5 bg-brand-blue text-white px-6 py-4 rounded-xl shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 z-[70] flex items-center gap-3">
+        <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-brand-blue">
+            <i class="fa-solid fa-check"></i>
+        </div>
+        <div>
+            <h4 class="font-bold text-sm">Замовлення прийнято!</h4>
+            <p class="text-xs text-white/90">Менеджер зв'яжеться з вами.</p>
+        </div>
+    </div>
+
+    <!-- JavaScript logic -->
+    <script>
+        // --- Contact Form Handler ---
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            
+            // Show alert (in a real app, this would send data to a backend)
+            alert(`Дякуємо, ${name}! Ваше повідомлення надіслано. Ми зв'яжемося з вами найближчим часом.`);
+            
+            // Clear form
+            event.target.reset();
+        }
+
+        // --- Data ---
+        // Використовуємо loremflickr для стабільності зображень
+        const products = [
+            // --- КУХНЯ (4 товари) ---
+            {
+                id: 1,
+                name: "Холодильник FrostFree X200",
+                category: "kitchen",
+                price: 15999,
+                oldPrice: 18500,
+                // Генерація фото холодильника
+                image: "https://loremflickr.com/500/400/refrigerator,fridge/all",
+                rating: 4.8
+            },
+            {
+                id: 4,
+                name: "Мікрохвильова піч HeatWave",
+                category: "kitchen",
+                price: 3500,
+                oldPrice: null,
+                // Генерація фото мікрохвильовки
+                image: "https://loremflickr.com/500/400/microwave/all",
+                rating: 4.5
+            },
+            {
+                id: 6,
+                name: "Блендер PowerMix 500W",
+                category: "kitchen",
+                price: 1200,
+                oldPrice: null,
+                // Генерація фото блендера
+                image: "https://loremflickr.com/500/400/blender,smoothie/all",
+                rating: 4.2
+            },
+            {
+                id: 9,
+                name: "Кавомашина BaristaPro",
+                category: "kitchen",
+                price: 18000,
+                oldPrice: 21000,
+                // Генерація фото кавомашини
+                image: "https://loremflickr.com/500/400/coffeemaker,espresso/all",
+                rating: 4.9
+            },
+
+            // --- ПРАННЯ (4 товари) ---
+            {
+                id: 2,
+                name: "Пральна машина WashPro 7kg",
+                category: "wash",
+                price: 12499,
+                oldPrice: null,
+                // Генерація фото пральної машини
+                image: "https://loremflickr.com/500/400/washingmachine/all",
+                rating: 4.9
+            },
+            {
+                id: 5,
+                name: "Робот-пилосос SmartClean",
+                category: "wash",
+                price: 7999,
+                oldPrice: 8500,
+                // Генерація фото робота-пилососа
+                image: "https://loremflickr.com/500/400/robotvacuum/all",
+                rating: 5.0
+            },
+            {
+                id: 10,
+                name: "Праска SteamMaster",
+                category: "wash",
+                price: 1500,
+                oldPrice: 1900,
+                // Генерація фото праски
+                image: "https://loremflickr.com/500/400/iron,steam/all",
+                rating: 4.4
+            },
+            {
+                id: 13,
+                name: "Сушильна машина DryMax",
+                category: "wash",
+                price: 13000,
+                oldPrice: 15500,
+                // Генерація фото сушарки
+                image: "https://loremflickr.com/500/400/laundry,dryer/all",
+                rating: 4.8
+            },
+
+            // --- КЛІМАТ (4 товари) ---
+            {
+                id: 3,
+                name: "Кондиціонер AirCooler S",
+                category: "climate",
+                price: 9800,
+                oldPrice: 11000,
+                // Генерація фото кондиціонера
+                image: "https://loremflickr.com/500/400/airconditioner/all",
+                rating: 4.7
+            },
+            {
+                id: 7,
+                name: "Обігрівач EcoHeat",
+                category: "climate",
+                price: 2100,
+                oldPrice: 2800,
+                // Генерація фото обігрівача
+                image: "https://loremflickr.com/500/400/electricheater/all",
+                rating: 4.6
+            },
+            {
+                id: 11,
+                name: "Очищувач повітря PureAir",
+                category: "climate",
+                price: 4500,
+                oldPrice: null,
+                // Генерація фото очищувача
+                image: "https://loremflickr.com/500/400/airpurifier/all",
+                rating: 4.7
+            },
+            {
+                id: 14,
+                name: "Вентилятор CoolBreeze",
+                category: "climate",
+                price: 1200,
+                oldPrice: 1500,
+                // Генерація фото вентилятора
+                image: "https://loremflickr.com/500/400/electricfan/all",
+                rating: 4.1
+            }
+        ];
+
+        let cart = [];
+
+        // --- Functions ---
+
+        // Render products to the grid
+        function renderProducts(filter = 'all') {
+            const grid = document.getElementById('product-grid');
+            const emptyState = document.getElementById('empty-state');
+            grid.innerHTML = '';
+
+            const filteredProducts = filter === 'all' 
+                ? products 
+                : products.filter(p => p.category === filter);
+
+            if (filteredProducts.length === 0) {
+                grid.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                return;
+            } else {
+                grid.classList.remove('hidden');
+                emptyState.classList.add('hidden');
+            }
+
+            filteredProducts.forEach(product => {
+                const discount = product.oldPrice ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100) : 0;
+                
+                // Fallback image URL using placeholder service
+                const fallbackImage = `https://placehold.co/400x400/f3f4f6/000831?text=${encodeURIComponent(product.name)}`;
+                
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-3xl p-4 relative card-hover border border-brand-mint/50 flex flex-col h-full shadow-sm hover:shadow-lg';
+                card.innerHTML = `
+                    <div class="relative bg-brand-light rounded-2xl mb-4 overflow-hidden group h-48 border border-brand-mint/30">
+                        <img 
+                            src="${product.image}" 
+                            alt="${product.name}" 
+                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                            onerror="this.onerror=null; this.src='${fallbackImage}';"
+                        >
+                        <button onclick="addToCart(${product.id})" class="absolute bottom-3 right-3 w-10 h-10 bg-brand-dark text-white rounded-full flex items-center justify-center shadow-lg hover:bg-brand-blue transition-colors z-10">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                        ${discount > 0 ? `<span class="absolute top-3 left-3 bg-brand-red text-white text-xs font-bold px-2 py-1 rounded-lg">-${discount}%</span>` : ''}
+                    </div>
+                    
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="text-xs text-brand-dark/60 font-bold uppercase tracking-wide">${getCategoryName(product.category)}</div>
+                        <div class="flex items-center gap-1 text-yellow-400 text-xs">
+                            <i class="fa-solid fa-star"></i>
+                            <span class="text-brand-dark/80 font-bold">${product.rating}</span>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-lg font-bold text-brand-dark leading-tight mb-2 flex-grow">${product.name}</h3>
+                    
+                    <div class="flex items-center gap-3 mt-auto">
+                        <span class="text-xl font-extrabold text-brand-blue">${product.price.toLocaleString('uk-UA')} ₴</span>
+                        ${product.oldPrice ? `<span class="text-sm text-gray-400 line-through decoration-2">${product.oldPrice.toLocaleString('uk-UA')} ₴</span>` : ''}
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function getCategoryName(cat) {
+            const names = { 'kitchen': 'Кухня', 'wash': 'Прання', 'climate': 'Клімат' };
+            return names[cat] || 'Техніка';
+        }
+
+        // Filter products
+        function filterCategory(category) {
+            renderProducts(category);
+            
+            // Update active state of buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                // Reset styles
+                btn.classList.remove('bg-brand-blue', 'text-white', 'border-brand-blue');
+                btn.classList.add('bg-white', 'text-brand-dark', 'border-brand-blue/20');
+                
+                // Apply active style
+                if(btn.dataset.category === category) {
+                    btn.classList.remove('bg-white', 'text-brand-dark', 'border-brand-blue/20');
+                    btn.classList.add('bg-brand-blue', 'text-white', 'border-brand-blue');
+                }
+            });
+
+            // Optional: Scroll to products
+            document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Add to Cart Logic
+        function addToCart(id) {
+            cart.push(id);
+            updateCartCount();
+            showToast();
+            // If cart is open, re-render it
+            const modal = document.getElementById('cart-modal');
+            if(!modal.classList.contains('hidden')){
+                renderCartItems();
+            }
+        }
+
+        function updateCartCount() {
+            const badge = document.getElementById('cart-count');
+            badge.innerText = cart.length;
+            badge.classList.remove('animate-bounce');
+            void badge.offsetWidth; // trigger reflow
+            badge.classList.add('animate-bounce');
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // --- New Cart Modal Logic ---
+
+        function openCart() {
+            const modal = document.getElementById('cart-modal');
+            const panel = document.getElementById('cart-panel');
+            const backdrop = document.getElementById('cart-backdrop');
+            
+            renderCartItems();
+            
+            modal.classList.remove('hidden');
+            // Small timeout to allow display:block to apply before transition
+            setTimeout(() => {
+                panel.classList.remove('translate-x-full');
+                backdrop.classList.remove('opacity-0');
+            }, 10);
+            
+            // Disable body scroll
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCart() {
+            const modal = document.getElementById('cart-modal');
+            const panel = document.getElementById('cart-panel');
+            const backdrop = document.getElementById('cart-backdrop');
+            
+            panel.classList.add('translate-x-full');
+            backdrop.classList.add('opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                // Enable body scroll
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+
+        function removeFromCart(id) {
+            const index = cart.indexOf(id);
+            if (index > -1) {
+                cart.splice(index, 1);
+            }
+            updateCartCount();
+            renderCartItems();
+        }
+
+        function renderCartItems() {
+            const container = document.getElementById('cart-items');
+            const totalEl = document.getElementById('cart-total');
+            container.innerHTML = '';
+            
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="flex flex-col items-center justify-center h-full text-center py-10 text-gray-400">
+                        <div class="w-24 h-24 bg-brand-light rounded-full flex items-center justify-center mb-4 border border-brand-mint">
+                            <i class="fa-solid fa-basket-shopping text-4xl opacity-20 text-brand-dark"></i>
+                        </div>
+                        <p class="font-medium text-lg text-brand-dark">Ваш кошик порожній</p>
+                        <p class="text-sm text-gray-400 mb-6">Додайте товари, щоб почати покупки</p>
+                        <button onclick="closeCart()" class="text-brand-blue font-bold hover:underline">Перейти до каталогу</button>
+                    </div>
+                `;
+                totalEl.innerText = '0 ₴';
+                return;
+            }
+
+            let totalPrice = 0;
+            // Count quantities
+            const cartCounts = {};
+            cart.forEach(id => { cartCounts[id] = (cartCounts[id] || 0) + 1; });
+
+            Object.keys(cartCounts).forEach(id => {
+                const product = products.find(p => p.id == id);
+                if (!product) return;
+                
+                const count = cartCounts[id];
+                totalPrice += product.price * count;
+                const fallbackImage = `https://placehold.co/100x100/f3f4f6/000831?text=${encodeURIComponent(product.name)}`;
+
+                const item = document.createElement('div');
+                item.className = 'flex gap-4 items-center bg-white p-3 rounded-2xl border border-brand-mint/50 shadow-sm animate-fade-in';
+                item.innerHTML = `
+                    <div class="w-20 h-20 bg-brand-light rounded-xl overflow-hidden flex-shrink-0 border border-brand-mint/30">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='${fallbackImage}';">
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h4 class="font-bold text-sm text-brand-dark truncate mb-1">${product.name}</h4>
+                        <div class="text-xs text-brand-dark/70 font-medium bg-brand-light inline-block px-2 py-1 rounded-lg border border-brand-mint/30">
+                            ${product.price.toLocaleString('uk-UA')} ₴ x ${count} шт.
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-end gap-2">
+                        <div class="font-bold text-brand-blue text-lg">
+                            ${(product.price * count).toLocaleString('uk-UA')} ₴
+                        </div>
+                        <button onclick="removeFromCart(${product.id})" class="w-8 h-8 rounded-full bg-red-50 text-brand-red hover:bg-brand-red hover:text-white transition-colors flex items-center justify-center text-xs" title="Видалити один">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+            
+            totalEl.innerText = totalPrice.toLocaleString('uk-UA') + ' ₴';
+        }
+
+        function checkout() {
+            if (cart.length === 0) return;
+            
+            closeCart();
+            // Show checkout success toast
+            const toast = document.getElementById('checkout-toast');
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+            
+            // Clear cart
+            cart = [];
+            updateCartCount();
+        }
+
+        // Mobile Menu Toggle
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Initial Render
+        document.addEventListener('DOMContentLoaded', () => {
+            filterCategory('all'); // Initialize with 'all' and set active button
+        });
+
+    </script>
+</body>
+</html>
