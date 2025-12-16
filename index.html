@@ -117,6 +117,7 @@
                 <!-- Меню для десктопу -->
                 <div class="hidden md:flex gap-8 font-semibold text-brand-dark">
                     <a href="#" onclick="goHome(event)" class="hover:text-brand-blue transition-colors">Головна</a>
+                    <a href="#categories" onclick="goHome(event, 'categories')" class="hover:text-brand-blue transition-colors">Категорії</a>
                     <a href="#products" onclick="goHome(event, 'products')" class="hover:text-brand-blue transition-colors">Товари</a>
                     <a href="#blog" onclick="goHome(event, 'blog')" class="hover:text-brand-blue transition-colors">Блог</a>
                     <a href="#faq" onclick="goHome(event, 'faq')" class="hover:text-brand-blue transition-colors">FAQ</a>
@@ -251,7 +252,7 @@
                     </div>
                     <div class="w-full md:w-1/2 relative z-10">
                         <div class="relative bg-brand-mint rounded-[3rem] p-8 md:p-12 transform rotate-2 hover:rotate-0 transition-transform duration-500 shadow-xl border-4 border-white">
-                            <img src="brand.png" alt="Брендове зображення" class="rounded-2xl shadow-lg w-full object-cover" onerror="this.onerror=null; this.src='https://loremflickr.com/800/600/modern,kitchen';">
+                            <img src="123.jpg" alt="Брендове зображення" class="rounded-2xl shadow-lg w-full object-cover" onerror="this.onerror=null; this.src='https://loremflickr.com/800/600/modern,kitchen';">
                             <div class="absolute -top-6 -right-6 bg-brand-red text-white p-4 rounded-2xl shadow-lg font-bold rotate-12 animate-pulse">
                                 -30% Знижка
                             </div>
@@ -344,7 +345,7 @@
                     <!-- Стаття 1 -->
                     <article onclick="openArticle(1)" class="bg-white rounded-3xl overflow-hidden border border-brand-mint/50 shadow-lg hover:shadow-xl transition-shadow group cursor-pointer flex flex-col h-full">
                         <div class="h-48 overflow-hidden relative shrink-0">
-                            <img src="https://loremflickr.com/600/400/kitchen,tech" alt="Blog 1" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            <img src="https://static.wikia.nocookie.net/home/images/b/bb/Sagaponak_Kitchen_1.jpg/revision/latest?cb=20080828204820" alt="Blog 1" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
                             <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-lg text-xs font-bold text-brand-dark">12 Гру 2024</div>
                         </div>
                         <div class="p-6 flex flex-col flex-grow">
@@ -358,7 +359,7 @@
                     <!-- Стаття 2 -->
                     <article onclick="openArticle(2)" class="bg-white rounded-3xl overflow-hidden border border-brand-mint/50 shadow-lg hover:shadow-xl transition-shadow group cursor-pointer flex flex-col h-full">
                         <div class="h-48 overflow-hidden relative shrink-0">
-                            <img src="https://loremflickr.com/600/400/washing,machine" alt="Blog 2" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Washing_Machine_Beko.jpg/250px-Washing_Machine_Beko.jpg" alt="Blog 2" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
                             <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-lg text-xs font-bold text-brand-dark">05 Гру 2024</div>
                         </div>
                         <div class="p-6 flex flex-col flex-grow">
@@ -372,7 +373,7 @@
                     <!-- Стаття 3 -->
                     <article onclick="openArticle(3)" class="bg-white rounded-3xl overflow-hidden border border-brand-mint/50 shadow-lg hover:shadow-xl transition-shadow group cursor-pointer flex flex-col h-full">
                         <div class="h-48 overflow-hidden relative shrink-0">
-                            <img src="https://loremflickr.com/600/400/smarthome,energy" alt="Blog 3" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Energy_efficiency_label_A.svg/1200px-Energy_efficiency_label_A.svg.png" alt="Blog 3" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
                             <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-lg text-xs font-bold text-brand-dark">28 Лис 2024</div>
                         </div>
                         <div class="p-6 flex flex-col flex-grow">
@@ -452,7 +453,7 @@
                         </ul>
                     </div>
                     <div class="relative">
-                        <img src="https://loremflickr.com/600/400/team,work" alt="About Us" class="rounded-3xl border-4 border-brand-mint/30 shadow-2xl w-full h-80 object-cover">
+                        <img src="https://images.unsplash.com/photo-1586208958839-06c17cacdf08?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aG9tZSUyMGFwcGxpYW5jZXxlbnwwfHwwfHx8MA%3D%3D" alt="About Us" class="rounded-3xl border-4 border-brand-mint/30 shadow-2xl w-full h-80 object-cover">
                         <div class="absolute bottom-8 right-8 bg-brand-blue text-white p-6 rounded-2xl shadow-xl max-w-xs">
                             <div class="flex gap-1 text-brand-mint mb-2 text-sm"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
                             <p class="font-bold text-sm">"Найкращий сервіс, який я коли-небудь зустрічав! Швидко і надійно."</p>
@@ -633,56 +634,56 @@
         const products = [
             // --- Холодильники (fridges) ---
             { 
-                id: 1, name: "Холодильник FrostFree X200", category: "fridges", price: 15999, oldPrice: 18500, image: "https://loremflickr.com/500/400/refrigerator,fridge/all?lock=1", rating: 4.8,
-                description: "Сучасний двокамерний холодильник з технологією No Frost. Забезпечує тривале зберігання продуктів завдяки системі рівномірного охолодження Multi Air Flow. Енергоефективність класу A++."
+                id: 1, name: "Двокамерний холодильник Bosch KGN39VL316", category: "fridges", price: 24999, oldPrice: 28500, image: "https://bs-partner.com.ua/upload/iblock/a47/KGN39VL316.jpg", rating: 4.9,
+                description: "Надійний холодильник Bosch з технологією NoFrost. Система MultiAirflow забезпечує рівномірний розподіл холоду. Спеціальне відділення VitaFresh зберігає овочі та фрукти свіжими довше."
             },
             { 
-                id: 2, name: "Холодильник SideBySide Grand", category: "fridges", price: 32000, oldPrice: 36000, image: "https://loremflickr.com/500/400/refrigerator,kitchen/all?lock=2", rating: 4.9,
-                description: "Великий холодильник типу Side-by-Side для великої родини. Диспенсер для води та льоду, сенсорне керування, зона свіжості для овочів."
+                id: 2, name: "Двокамерний холодильник Samsung RB33J3200SA/UA", category: "fridges", price: 19999, oldPrice: 22000, image: "https://cactus.site/image/cache/catalog/VladimirGorchakov/SamsungRB33J3200SAUA/10790738-500x500.jpg", rating: 4.8,
+                description: "Стильний холодильник графітового кольору. Інверторний компресор працює тихо та економно. Технологія All-Around Cooling охолоджує кожен куточок камери рівномірно."
             },
             { 
-                id: 3, name: "Холодильник Compact S", category: "fridges", price: 8500, oldPrice: null, image: "https://loremflickr.com/500/400/minifridge/all?lock=3", rating: 4.5,
-                description: "Компактний однокамерний холодильник. Ідеальне рішення для дачі, офісу або готельного номера. Тиха робота та низьке енергоспоживання."
+                id: 3, name: "Двокамерний холодильник LG GW–B509FXFW", category: "fridges", price: 28999, oldPrice: 32000, image: "https://www.lg.com/ua/images/refrigerators/md07605399/gallery/medium01.jpg", rating: 5.0,
+                description: "Преміальний холодильник LG з системою DoorCooling+ для швидкого охолодження. Total No Frost позбавляє необхідності розморожування. Розумна діагностика Smart Diagnosis."
             },
             { 
-                id: 4, name: "Холодильник SmartCool Pro", category: "fridges", price: 21500, oldPrice: 24000, image: "https://loremflickr.com/500/400/smartfridge/all?lock=4", rating: 4.7,
-                description: "Розумний холодильник з Wi-Fi керуванням. Дозволяє регулювати температуру зі смартфона. Стильний дизайн з покриттям проти відбитків пальців."
+                id: 4, name: "Холодильник Whirlpool W7 931T OX", category: "fridges", price: 21500, oldPrice: 24000, image: "https://www.tradeinn.com/f/13775/137757697/whirlpool-frigo-w7-931t-ox-no-frost.webp", rating: 4.7,
+                description: "Холодильник з технологією 6th SENSE, яка автоматично контролює температуру. Ящик Fresh Box+ зі слайдером вологості для ідеального зберігання продуктів."
             },
 
             // --- Пральні машини (washing) ---
             { 
-                id: 5, name: "Пральна машина WashPro 7kg", category: "washing", price: 12499, oldPrice: null, image: "https://loremflickr.com/500/400/washingmachine/all?lock=5", rating: 4.9,
-                description: "Пральна машина з інверторним двигуном та функцією обробки парою. Завантаження до 7 кг, тиха робота та економне споживання води. Ідеально для великої родини."
+                id: 5, name: "Пральна машина LG F2V5HS0W AI DD", category: "washing", price: 17999, oldPrice: 21000, image: "https://www.lg.com/ua/images/washing-machines/md07518617/gallery/medium01.jpg", rating: 4.9,
+                description: "Інтелектуальна система AI DD™ визначає не лише вагу, а й тип тканини, підбираючи оптимальний алгоритм прання. Функція пари Steam™ видаляє до 99.9% алергенів."
             },
             { 
-                id: 6, name: "Прально-сушильна машина 2в1", category: "washing", price: 18999, oldPrice: 22000, image: "https://loremflickr.com/500/400/laundry,machine/all?lock=6", rating: 4.8,
-                description: "Універсальне рішення: прання та сушіння в одному приладі. Економія місця та часу. Програма 'Прання+Сушіння за 1 годину'."
+                id: 6, name: "Пральна машина Electrolux EW6S406WU", category: "washing", price: 14499, oldPrice: 16500, image: "https://i.citrus.world/imgcache/size_800/uploads/shop/1/6/1699438592-opt.webp", rating: 4.8,
+                description: "Компактна пральна машина системи SensiCare, яка коригує тривалість програми згідно з розмірами завантаження. Опція SoftPlus попередньо замочує білизну для рівномірного розподілу кондиціонера."
             },
             { 
-                id: 7, name: "Пральна машина SlimFit", category: "washing", price: 10500, oldPrice: 11200, image: "https://loremflickr.com/500/400/washingmachine,bathroom/all?lock=7", rating: 4.6,
-                description: "Вузька пральна машина (глибина всього 40 см). Ідеально підходить для невеликих ванних кімнат. Завантаження 5 кг, 12 програм прання."
+                id: 7, name: "Пральна машина Samsung WW60A3100BE/UA", category: "washing", price: 15999, oldPrice: 18000, image: "https://scdn.comfy.ua/89fc351a-22e7-41ee-8321-f8a9356ca351/https://cdn.comfy.ua/media/catalog/product/u/a/ua-ww3000am-ww60a3100be-ua-532892196.jpg/w_600", rating: 4.7,
+                description: "Технологія цифрового інвертора забезпечує тиху та потужну роботу, споживаючи менше енергії. Гігієнічне очищення парою покращує якість прання без попередньої обробки."
             },
             { 
-                id: 8, name: "Пральна машина Vertical Top", category: "washing", price: 13200, oldPrice: 15000, image: "https://loremflickr.com/500/400/washingmachine,topload/all?lock=8", rating: 4.7,
-                description: "Пральна машина з вертикальним завантаженням. Зручна у використанні, не потребує додаткового місця для відкриття люка. Функція дозавантаження білизни."
+                id: 8, name: "Пральна машина Indesit BWSA 61051", category: "washing", price: 9999, oldPrice: 11500, image: "https://content.rozetka.com.ua/goods/images/big/343491781.jpg", rating: 4.5,
+                description: "Програма Push&Go дозволяє запустити цикл прання одним натисканням кнопки всього за 45 хвилин. Water Balance Plus автоматично регулює витрати води."
             },
 
             // --- Телевізори (tvs) ---
             { 
-                id: 9, name: "Телевізор 4K UltraView 55\"", category: "tvs", price: 24999, oldPrice: 29000, image: "https://loremflickr.com/500/400/tv,television/all?lock=9", rating: 4.9,
-                description: "Надчітке зображення 4K UHD. Підтримка HDR10+ для реалістичних кольорів. Smart TV на базі Android, голосове керування."
+                id: 9, name: "Телевізор LG 50\" 50UA75006LA", category: "tvs", price: 18999, oldPrice: 21500, image: "https://www.lg.com/ua/images/televisions/md07604170/gallery/medium01.jpg", rating: 4.9,
+                description: "Справжній 4K телевізор для усіх ваших розваг. Процесор α5 Gen5 AI 4K покращує джерела зображення до якості 4K. Технологія ThinQ AI робить телевізор розумним центром вашого дому."
             },
             { 
-                id: 10, name: "Телевізор Smart LED 43\"", category: "tvs", price: 14500, oldPrice: 16000, image: "https://loremflickr.com/500/400/smarttv/all?lock=10", rating: 4.7,
-                description: "Оптимальний розмір для спальні або вітальні. Якісна матриця, вбудований Wi-Fi, доступ до Netflix та YouTube. Тонкі рамки."
+                id: 10, name: "Телевізор Samsung 43\" UE43U8000FUXUA", category: "tvs", price: 15999, oldPrice: 17500, image: "https://content.rozetka.com.ua/goods/images/big/531721977.jpg", rating: 4.8,
+                description: "Кришталево чисті кольори з технологією Dynamic Crystal Color. Дизайн AirSlim робить телевізор неймовірно тонким. Процесор Crystal 4K забезпечує реалістичне зображення."
             },
             { 
-                id: 11, name: "Телевізор OLED Master 65\"", category: "tvs", price: 55000, oldPrice: 62000, image: "https://loremflickr.com/500/400/oledtv/all?lock=11", rating: 5.0,
-                description: "Флагманський OLED телевізор. Ідеальний чорний колір, нескінченна контрастність. Потужний процесор для обробки зображення та ігровий режим 120Гц."
+                id: 11, name: "Телевізор Ergo QLED 60\" 60JUQ7500", category: "tvs", price: 21999, oldPrice: 24000, image: "https://ergo-ua.com/img/products/1813563/3705653.jpg", rating: 4.7,
+                description: "Величезний екран з технологією Quantum Dot (QLED) для максимальної яскравості та насиченості кольорів. Підтримка HDR10+ та Android TV для доступу до улюбленого контенту."
             },
             { 
-                id: 12, name: "Телевізор Basic HD 32\"", category: "tvs", price: 6999, oldPrice: null, image: "https://loremflickr.com/500/400/tv,livingroom/all?lock=12", rating: 4.4,
-                description: "Бюджетний телевізор для кухні. Яскраве зображення, цифровий тюнер T2, роз'єми HDMI та USB для перегляду фільмів з флешки."
+                id: 12, name: "Телевізор Philips 43PUS7810/12", category: "tvs", price: 17999, oldPrice: 21000, image: "https://mobileplanet.ua/uploads/product/2025-7-8/philips-43pus7810-12-347896.webp", rating: 4.8,
+                description: "Телевізор з унікальним підсвічуванням Ambilight, що візуально розширює екран. Роздільна здатність 4K UHD, підтримка Dolby Vision та Atmos для кінематографічного досвіду вдома."
             }
         ];
 
@@ -691,7 +692,7 @@
                 id: 1,
                 title: "Топ-5 гаджетів для кухні 2025 року",
                 date: "12 Гру 2024",
-                image: "https://loremflickr.com/800/600/kitchen,tech",
+                image: "https://static.wikia.nocookie.net/home/images/b/bb/Sagaponak_Kitchen_1.jpg/revision/latest?cb=20080828204820",
                 content: `
                     <p class="lead font-medium text-lg text-gray-600 mb-6">Технології не стоять на місці, і кухня стає центром інновацій у кожному домі. У 2025 році ми спостерігаємо новий тренд на розумну техніку, яка економить час та енергію.</p>
                     <h3>1. Розумний холодильник з ШІ</h3>
@@ -706,7 +707,7 @@
                 id: 2,
                 title: "Як обрати ідеальну пральну машину?",
                 date: "05 Гру 2024",
-                image: "https://loremflickr.com/800/600/washing,machine",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Washing_Machine_Beko.jpg/250px-Washing_Machine_Beko.jpg",
                 content: `
                     <p class="lead font-medium text-lg text-gray-600 mb-6">Вибір пральної машини — це інвестиція на 7-10 років. Щоб не помилитися, варто врахувати не лише ціну, але й технічні характеристики.</p>
                     <h3>1. Тип завантаження</h3>
@@ -721,7 +722,7 @@
                 id: 3,
                 title: "Економія електроенергії: поради експертів",
                 date: "28 Лис 2024",
-                image: "https://loremflickr.com/800/600/smarthome,energy",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Energy_efficiency_label_A.svg/1200px-Energy_efficiency_label_A.svg.png",
                 content: `
                     <p class="lead font-medium text-lg text-gray-600 mb-6">Рахунки за комунальні послуги постійно зростають, але правильне використання техніки може зменшити витрати.</p>
                     <h3>1. Клас А+++</h3>
